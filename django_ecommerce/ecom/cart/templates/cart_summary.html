@@ -1,0 +1,89 @@
+{% extends 'base.html' %}
+
+
+{% block content  %}
+        <!-- Header-->
+        <header class="py-5" style="background-color: #F5ECEC; padding-top: 0.50rem !important; padding-bottom: 0.50rem !important;" >
+            <div class="container px-4 px-lg-5 my-5">
+                <div class="text-center text-black">
+                    <h1 class="display-4 fw-bolder">Carrito de compras</h1>
+                    <p class="lead fw-normal text-black-50 mb-0">Productos</p>
+                </div>
+            </div>
+        </header>
+        <br><br>
+        <div class="container">
+            {% if cart_products %}
+            
+            {% for product in cart_products %}
+
+            <div class="row">
+                <div class="col-md-6 offset-md-3">
+                    <div class="text-center">
+                        <br>
+                        <div class="card mb-3">
+                            <img src="{{ product.image.url }}" class="card-img-top" alt="...">
+                            <div class="card-body">
+                              <h5 class="card-title">{{ product.name }}</h5>
+                              <p class="card-text">{{ product.description }}</p>
+                              <h3>${{ product.price }}</h3>
+                              <select class="form-select form-select-sm" id="select{{product.id}}" aria-label="Small select example">
+                                    {% for key, value in quantities.items %}
+
+                                    {% if key == product.id|slugify %}
+                                    <option selected>{{ value }}</option>
+                                    {% endif %}
+
+                                    {% endfor %}
+                              </select>
+                              <br>
+                              <button type="button" data-index="{{product.id}}" class="btn btn-danger delete-product">Eliminar producto</button>
+                            </div>
+                        </div>
+                    </div>
+                    <br><br>
+                </div>
+            </div>
+
+            {% endfor %}
+            <div class="container px-4 px-lg-5 my-5">
+                <div class="text-center">
+                    <h2 class="card-title">Total: ${{ totals }}</h2>
+                </div>
+            </div>
+            
+            {% else %}
+            <div class="container px-4 px-lg-5 my-5">
+                <div class="text-center">
+                    <h2>No has agregado ningún producto al carrito de compras</h2>
+                </div>
+            </div>
+            {% endif %}
+        </div>
+
+<script>
+    // Borrar producto del carrito
+    $(document).on('click', '.delete-product', function(e){
+        e.preventDefault();
+        $.ajax({
+            type: 'POST',
+            url: '{% url 'cart_delete' %}',
+            data: {
+                product_id: $(this).data('index'),
+                csrfmiddlewaretoken: '{{ csrf_token }}',
+                action: 'post'
+            },
+
+            /* Cuando borramos un producto al carrito */
+            success: function(json){
+                location.reload();
+            },
+
+            error: function(xhr, errmsg, err) {
+
+            }
+        });
+
+    });
+</script>
+{% endblock %}

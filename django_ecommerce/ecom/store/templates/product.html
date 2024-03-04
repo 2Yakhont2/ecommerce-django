@@ -1,0 +1,77 @@
+{% extends 'base.html' %}
+
+
+{% block content  %}
+
+<div class="container">
+    <div class="row">
+        <div class="col-md-6 offset-md-3">
+            <div class="text-center">
+                <br>
+                <div class="card mb-3">
+                    <img src="{{ product.image.url }}" class="card-img-top" alt="...">
+                    <div class="card-body">
+                      <h5 class="card-title">{{ product.name }}</h5>
+                      <p class="card-text">{{ product.description }}</p>
+                      <h3>${{ product.price }}</h3>
+                      <select class="form-select form-select-sm" id="quantity-cart" aria-label="Small select example">
+                        <option selected>Selecciona la cantidad que vas a comprar</option>
+                        <option value="1">1</option>
+                        <option value="2">2</option>
+                        <option value="3">3</option>
+                      </select>
+
+                      <br>
+                      <button type="button" value="{{ product.id }}" class="btn btn-success" id="add-cart">Añadir al carrito</button>
+                    </div>
+                  </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+<script>
+    
+    //Recomendation --> Use fetch instead of jQuey
+
+    $(document).on('click', '#add-cart', function(e){
+        e.preventDefault();
+        $.ajax({
+            type: 'POST',
+            url: '{% url 'cart_add' %}',
+            data: {
+                product_id: $('#add-cart').val(),
+                product_quantity: $('#quantity-cart option:selected').text(),
+                csrfmiddlewaretoken: '{{ csrf_token }}',
+                action: 'post'
+            },
+
+            /* Cuando agregamos un producto al carrito */
+            success: function(json){
+                document.getElementById("cart_quantity").innerHTML = json.quantity
+            },
+
+            error: function(xhr, errmsg, err) {
+
+            }
+        });
+
+    });
+
+
+    // const d = document;
+    // const $addCartBtn = document.querySelector("#add-cart");
+
+    // d.addEventListener("click", (e) => {
+    //     if(e.target == $addCartBtn) {
+    //         e.preventDefault();
+    //         console.log("boton");
+    //         alert("hola")
+    //     }
+        
+    // })
+
+
+</script>
+
+{% endblock %}
