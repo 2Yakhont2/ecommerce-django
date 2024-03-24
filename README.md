@@ -18,6 +18,6 @@ En el paso anterior instalamos los paquetes necesarios para correr la aplicació
 ejecutaremos tres comandos para mantener la integridad de los datos. 
 
 - Abrir la carpeta ecom
-- Ejecutar el comando __python manage.py migrate__
 - Ejecutar el comando __python manage.py makemigrations__
+- Ejecutar el comando __python manage.py migrate__
 - Iniciar la apliación: Ejecutar el comando __python manage.py runserver__
