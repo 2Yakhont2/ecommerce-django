@@ -2,7 +2,7 @@ from django.contrib import admin
 from .models import Category, Customer, Product, Order, Profile
 from django.contrib.auth.models import User
 
-# Register your models here.
+# Registro en Django admin de los models de la aplicacion store.
 
 admin.site.register(Category)
 admin.site.register(Customer)

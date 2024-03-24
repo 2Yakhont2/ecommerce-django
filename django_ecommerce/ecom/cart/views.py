@@ -13,13 +13,16 @@ def cart_summary(request):
     totals = cart.cart_total()
     return render(request, "cart_summary.html", {"cart_products":cart_products, "quantities":quantities, "totals":totals})
 
+
+# Recolectamos la data enviada a esta vista desde la pagina product
+
 def cart_add(request):
     cart = Cart(request)
 
     # Probar el POST
     if request.POST.get('action') == 'post':
 
-        # Obtener los productos
+        # Obtener los productos y la cantidad a comprar
         product_id = int(request.POST.get('product_id'))
         product_quantity = int(request.POST.get('product_quantity'))
 

@@ -4,9 +4,14 @@ from django.contrib.auth.models import User
 from django.db.models.signals import post_save
 
 
-# Crear un nuevo modelo de perfil personalizado, y asociarlo con el modelo de django 
+# Usamos el modelo User de Django para crear los usuarios. El modelo 
+# User tiene 5 atributos por defecto: username, password, email, first_name, last_name
+
+# Para agregar mas atributos a User hay que crear un Profile y asociarlo con User 
 class Profile(models.Model):
     user = models.OneToOneField(User, on_delete=models.CASCADE)
+
+    # Informacion adicional de la cuenta de usuario
     city = models.CharField(max_length=20)
     departments = models.CharField(max_length=30)
     address1 = models.CharField(max_length=30)
@@ -24,10 +29,15 @@ def create_profile(sender, instance, created, **kwargs):
 
 post_save.connect(create_profile, sender=User)
 
+
 # Create your models here.
 
 class Category(models.Model):
     name = models.CharField(max_length=50)
+
+    # Se nombra manualmente la clase como Categories
+    class Meta:
+        verbose_name_plural = "Categories"
 
     def __str__(self):
         return str(self.name)
@@ -37,7 +47,7 @@ class Customer(models.Model):
     first_name = models.CharField(max_length=50)
     last_name = models.CharField(max_length=50)
     phone = models.CharField(max_length=15)
-    email = models.EmailField(max_length=50)
+    email = models.EmailField(max_length=50, unique=True)
     password = models.CharField(max_length=50)
 
     def __str__(self):
@@ -49,7 +59,7 @@ class Product(models.Model):
     price = models.IntegerField()
     category = models.ForeignKey(Category, on_delete=models.CASCADE, default=1)
     description = models.CharField(max_length=200, default='', blank=True, null=True)
-    image = models.ImageField(upload_to='uploads/product/')
+    image = models.ImageField(upload_to='uploads/product/', default='uploads/product/default.png')
 
     def __str__(self):
         return str(self.name)

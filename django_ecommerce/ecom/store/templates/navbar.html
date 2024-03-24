@@ -1,21 +1,22 @@
-<!-- Navigation-->
+<!--Barra de navegacion-->
 <nav class="navbar navbar-expand-lg" style="background-color: #fff;">
     <div class="container px-4 px-lg-5">
-        <a class="navbar-brand" href="{% url 'home' %}">Tienda Virtual</a>
+        <a class="navbar-brand" href="{% url 'home' %}">CONSTRUMOLE</a>
         <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarSupportedContent" aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation"><span class="navbar-toggler-icon"></span></button>
         <div class="collapse navbar-collapse" id="navbarSupportedContent">
             <ul class="navbar-nav me-auto mb-2 mb-lg-0 ms-lg-4">
                 <li class="nav-item"><a class="nav-link" aria-current="page" href="{% url 'home' %}">Home</a></li>
                 <li class="nav-item"><a class="nav-link" href="{% url 'about' %}">Sobre nosotros</a></li>
 
+                <!--Estos dos enlaces solo estan disponibles si el usuario ha iniciado sesion-->
                 {% if user.is_authenticated %}
                 <li class="nav-item"><a class="nav-link" href="{% url 'logout' %}">Salir</a></li>
                 <li class="nav-item"><a class="nav-link" href="{% url 'update_info' %}">Perfil</a></li>
 
+                <!--Si el usuario no ha iniciado sesion la barra de navegacion mostrara un enlace llamado Ingresa-->
                 {% else %}
                 <li class="nav-item"><a class="nav-link" href="{% url 'login' %}">Ingresar</a></li>
 
-                <li class="nav-item"><a class="nav-link" href="{% url 'register' %}">Registrate</a></li>
                 {% endif %}
 
             </ul>

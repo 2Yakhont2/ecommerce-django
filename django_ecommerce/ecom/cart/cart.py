@@ -13,6 +13,7 @@ class Cart():
         
         self.cart = cart
 
+
     # Funcion agregar
     def add(self, product, quantity):
         product_id = str(product.id)
@@ -25,8 +26,9 @@ class Cart():
         
         self.session.modified = True
 
+
+    # Obtener el precio total de los productos dentro del carrito
     def cart_total(self):
-        # Obtener el ids de los productos
         product_ids = self.cart.keys()
         products = Product.objects.filter(id__in=product_ids)
         quantities = self.cart
@@ -44,19 +46,23 @@ class Cart():
 
     def __len__(self):
         return len(self.cart)
-    
+
+   
     def get_prods(self):
-        # Obtener los ids del carrito
+        # Obtener el id de cada uno de los productos dentro del carrito
         product_ids = self.cart.keys()
         # Usar los ids parar identificar los productos en la bd
         products = Product.objects.filter(id__in=product_ids)
 
         return products
-    
+
+
     def get_quantity(self):
         quantities = self.cart
         return quantities
     
+
+    # Eliminar productos del carrito
     def delete(self, product):
         product_id = str(product)
 
@@ -64,5 +70,3 @@ class Cart():
             del self.cart[product_id]
         
         self.session.modified = True
-
-

@@ -1,34 +1,47 @@
+<!--Uso la etiqueta extends para extender de otra plantilla-->
 {% extends 'base.html' %}
 
-
+<!--El contenido dentro de la etiqueta block content se mostrara en la plantilla 
+    base.html en su etiqueta block content-->
 {% block content  %}
         <!-- Header-->
         <header class="py-5" style="background-color: #F5ECEC">
             <div class="container px-4 px-lg-5 my-5">
                 <div class="text-center text-black">
-                    <h1 class="display-4 fw-bolder">Tienda!!!</h1>
-                    <p class="lead fw-normal text-black-50 mb-0">Bootstrap</p>
+                    <h1 class="display-4 fw-bolder">Ferretería CONSTRUMOLE</h1>
+                    <p class="lead fw-normal text-black-50 mb-0">Navega por nuestra amplia selección de productos y herramientas de construcción. <br>Con nuestro fácil proceso de compra y entrega rápida, hacer tus compras en línea nunca ha sido tan conveniente.</p>
+
+                    {% if user.is_authenticated %}
+
+                    {% else %}
+                    <br>
+                    <a href="{% url 'register' %}" class="btn btn-info my-2">Crea una cuenta</a>
+
+                    {% endif %}
+
                 </div>
             </div>
         </header>
-        <!-- Section-->
+       
         <section class="py-5">
             <div class="container px-4 px-lg-5 mt-5">
                 <div class="row gx-4 gx-lg-5 row-cols-2 row-cols-md-3 row-cols-xl-4 justify-content-center">
 
+                    <!--La etiqueta for permite hacer un bucle por cada elemento en products. 
+                        Se crea una tarjeta por cada elemento que exista en products-->
                     {% for product in products %}
                     <div class="col mb-5">
                         <div class="card h-100">
-                            <!-- Product image-->
+                            <!-- Por cada product buscamos el campo image-->
                             <img class="card-img-top" src="{{ product.image.url }}" alt="..." />
                             <!-- Product details-->
                             <div class="card-body p-4" style="background-color: #EEE8E8">
                                 <div class="text-center">
-                                    <!-- Product category-->
+                                    <!-- Por cada product buscamos el campo category-->
                                     <p class="card-text">{{ product.category }}</p>
-                                    <!-- Product name-->
+                                    <!-- Por cada product buscamos el campo name-->
                                     <h5 class="fw-bolder">{{ product.name }}</h5>
-                                    <!-- Product price-->
+                                    <!-- Por cada product buscamos el campo price-->
                                     ${{ product.price }}
                                 </div>
                             </div>
