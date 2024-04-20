@@ -83,14 +83,20 @@ def product (request,pk):
 # Solo disponible para usuarios que esten usando su cuenta
 def update_info(request):
     if request.user.is_authenticated:
+        # Obtener el usuario actual
         current_user = Profile.objects.get(user__id=request.user.id)
         form = UserInfoForm(request.POST or None, instance=current_user)
         
-        if form.is_valid():
+        # Obtener la orden del usuario
+        shipping_user = ShippingAddress.objects.get(user__id=request.user.id)
+        shipping_form = ShippingForm(request.POST or None, instance=shipping_user)
+        
+        if form.is_valid() or shipping_form.is_valid():
             form.save()
+            shipping_form.save()
             messages.success(request, "Información actualizada")
             return redirect('home')
-        return render(request, "update_info.html", {'form':form})
+        return render(request, "update_info.html", {'form':form, 'shipping_form':shipping_form})
     else:
         messages.success(request, "Incia sesion")
         return redirect('home')

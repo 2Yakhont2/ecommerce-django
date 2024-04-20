@@ -1,0 +1,76 @@
+{% extends 'base.html' %}
+
+
+{% block content  %}
+        <!-- Header-->
+        <header class="py-5" style="background-color: #F5ECEC; padding-top: 0.50rem !important; padding-bottom: 0.50rem !important;" >
+            <div class="container px-4 px-lg-5 my-5">
+                <div class="text-center text-black">
+                    <h1 class="display-4 fw-bolder">Pago</h1>
+                </div>
+            </div>
+        </header>
+
+            <section class="py-5">
+                <div class="container px-4 px-lg-5 mt-5">
+                    <div class="row gx-4 gx-lg-5 row-cols-2 row-cols-md-3 row-cols-xl-4 justify-content-center">
+                        <div class="col mb-5">
+                            <div class="card" style="width: 25rem;">
+                                <div class="card-body">
+                                        
+                                    {% for product in cart_products %}
+    
+                                    <h6 class="card-subtitle mb-2 text-body-secondary">{{ product.name }}</h5>
+                                        
+                                    Precio: 
+                                    ${{ product.price }}
+                                        
+                                    <p class="card-text">
+                                        Cantidad:
+                                        {% for key, value in quantities.items %}
+                
+                                        {% if key == product.id|slugify %}
+    
+                                        {{ value }}
+    
+                                        {% endif %}
+                
+                                        {% endfor %}
+                                    </p>
+                                    
+                                    {% endfor %}
+    
+                                </div>
+                            </div>
+    
+                            <br>
+    
+                            <div class="card text-center" style="width: 25rem;">
+                                <div class="card-header">
+                                    Información de envío
+                                </div>
+                                <div class="card-body">
+                                    <form method="POST" action="{% url 'billing_information' %}">
+
+                                        {% csrf_token %}
+                                        {{ shipping_form.as_p }}
+                                        
+                                        <div id="total" class="fw-bold">
+                                            Total: ${{ totals }}
+                                        </div>
+                                        <br>
+                                        <button type="submit" class="btn btn-success fw500">Pagar</button>
+                                    </form>
+                                </div>
+
+                                <div class="card-footer text-body-secondary">
+                                  Si la información de envío es diferente <strong>!Actualiza tu informacion de envío!</strong>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                        
+            </section>
+
+{% endblock %}

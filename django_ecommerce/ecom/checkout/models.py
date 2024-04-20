@@ -1,6 +1,7 @@
 from django.db import models
 from django.contrib.auth.models import User
 from store.models import Product
+from django.db.models.signals import post_save
 
 class ShippingAddress(models.Model):
 	# Asociar la direccion de envio con el usuario
@@ -22,6 +23,15 @@ class ShippingAddress(models.Model):
 		return f'Shipping Address - {str(self.id)}'
 
 
+# Crear una direccion de envio por defecto cuando un cliente se registra 
+def create_shipping(sender, instance, created, **kwargs):
+    if created:
+        user_shipping = ShippingAddress(user=instance)
+        user_shipping.save()
+
+post_save.connect(create_shipping, sender=User)
+
+
 # Crear la tabla de la orden de los productos
 class Order(models.Model):
 	user = models.ForeignKey(User, on_delete=models.CASCADE, null=True, blank=True)
@@ -35,7 +45,7 @@ class Order(models.Model):
 		return f'Order - {str(self.id)}'
 
 
-# Create Order Items Model
+
 class OrderItem(models.Model):
 	order = models.ForeignKey(Order, on_delete=models.CASCADE, null=True)
 	product = models.ForeignKey(Product, on_delete=models.CASCADE, null=True)

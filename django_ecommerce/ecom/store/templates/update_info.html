@@ -1,7 +1,7 @@
 {% extends 'base.html' %}
 {% block content %}
 
-        <header class="py-5" style="background-color: #F5ECEC">
+        <!-- <header class="py-5" style="background-color: #F5ECEC">
             <div class="container px-4 px-lg-5 my-5">
                 <div class="text-center text-black">
                     <h1 class="display-4 fw-bolder">
@@ -9,7 +9,7 @@
                     </h1>
                 </div>
             </div>
-        </header>
+        </header> -->
 
         <div class="container">
             <div class="row">
@@ -18,9 +18,12 @@
                         <br><br>
                         <form method="POST" action="{% url 'update_info' %}">
                             {% csrf_token %}
-                        
+
+                            <p class="fw-bolder">Información de usuario</p>
                             {{ form.as_p }}
                             <br><br>
+                            <p class="fw-bolder">Información de envío</p>
+                            {{ shipping_form.as_p }}
                             <button type="submit" class="btn btn-success">
                                 Actualizar Perfil
                             </button>

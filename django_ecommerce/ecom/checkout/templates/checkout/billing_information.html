@@ -1,0 +1,41 @@
+{% extends 'base.html' %}
+
+
+{% block content  %}
+        <!-- Header-->
+        <header class="py-5" style="background-color: #F5ECEC; padding-top: 0.50rem !important; padding-bottom: 0.50rem !important;" >
+            <div class="container px-4 px-lg-5 my-5">
+                <div class="text-center text-black">
+                    <h1 class="display-4 fw-bolder">Facturación</h1>
+                </div>
+            </div>
+        </header>
+
+            <section class="py-5">
+                <div class="container px-4 px-lg-5 mt-5">
+                    <div class="row gx-4 gx-lg-5 row-cols-2 row-cols-md-3 row-cols-xl-4 justify-content-center">
+                        <div class="col mb-5">
+    
+                            <div class="card text-center" style="width: 25rem;">
+                                <div class="card-header">
+                                    Total a pagar
+                                </div>
+                                <div class="card-body">
+                                    <p class="card-text"></p>
+                                    
+                                    {{ shipping_info }}
+                                    
+                                    <div id="total" class="fw-bold">
+                                        Total: ${{ totals }}
+                                    </div>
+                                    <br>
+                                    <a role="button" href="{% url 'payment' %}" class="btn btn-success fw500">Realizar compra</a>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                        
+            </section>
+
+{% endblock %}
